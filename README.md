@@ -2,6 +2,7 @@
 Java online judge
 
  Verdicts
+ 
     * Time Limit Exceeded (TLE)  ![](https://www.codechef.com/misc/clock_error.png)
     
     * Compilation Error (CE)  ![](https://s3.amazonaws.com/codechef_shared/misc/alert-icon.gif)
