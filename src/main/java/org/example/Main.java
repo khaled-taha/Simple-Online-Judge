@@ -20,19 +20,32 @@ public class Main {
                           System.out.println("JAVA");
                      }
                 }
+                """,
+                """
+                JAVA
+                JAVA
+                JAVA
+                JAVA
                 """));
 
     }
 
 
-    private static String testJavaCode(String code) throws Exception {
+    private static String testJavaCode(String code, String target) throws Exception {
         String output = "";
 
         Path javaFile = createMainClass(Path.of("java-code"), code);
 
          Process process = compileCode(javaFile);
          if(process != null && (process = runCode(javaFile)) != null){
+
+                 // Read the output
                  output = readProcessMessage(process.getInputStream());
+
+                 if(output.equals(target)) output = "Accepted";
+                 else output = "Wrong Answer";
+
+                 process.destroy();
          }
         // Clean up the temporary directory
         deleteDirectory(javaFile.getParent());
@@ -73,7 +86,10 @@ public class Main {
 
         // Validate Code
         if (!process.waitFor(5, TimeUnit.SECONDS) ){
-            System.out.println("Time Limit Exceeded");
+             System.out.println("Time Limit Exceeded");
+            return null;
+        } else if (readProcessMessage(process.getErrorStream()).contains("Exception")){
+            System.out.println("Runtime Error");
             return null;
         }
         else
@@ -89,14 +105,6 @@ public class Main {
         while ((line = bufferedReader.readLine()) != null){
             output += line + '\n';
         }
-        return output;
-    }
-
-    public static String judgeCode(Process process) throws InterruptedException, IOException {
-        String output = "";
-                // Code execution completed, read the output
-
-
         return output;
     }
 
